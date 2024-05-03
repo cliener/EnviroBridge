@@ -7,7 +7,7 @@ import {
   StaticPlatformPlugin
 } from 'homebridge';
 
-import { EnviroTemperatureSensor } from './platformAccessory';
+import { TemperatureSensor } from './temperatureAccessory';
 
 let hap: HAP;
 
@@ -27,7 +27,7 @@ export class EnviroLoggerPlatform implements StaticPlatformPlugin {
 
   accessories(callback: (foundAccessories: AccessoryPlugin[]) => void): void {
     callback([
-      new EnviroTemperatureSensor(hap, this.log, "EnviroTemperatureSensor")
+      new TemperatureSensor(hap, this.log, "TemperatureSensor")
     ]);
   }
 }
