@@ -1,9 +1,7 @@
 import {
   AccessoryPlugin,
-  API,
   HAP,
   Logging,
-  PlatformConfig, 
   StaticPlatformPlugin
 } from 'homebridge';
 
@@ -19,7 +17,7 @@ let hap: HAP;
 export class EnviroLoggerPlatform implements StaticPlatformPlugin {
   private readonly log: Logging;
 
-  constructor(log: Logging, config: PlatformConfig, api: API) {
+  constructor(log: Logging) {
     this.log = log;
 
     log.info("Enviro Logger Initialised");

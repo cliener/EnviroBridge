@@ -1,15 +1,15 @@
-import { API, HAP } from 'homebridge';
+import { API } from 'homebridge';
 
 import { PLATFORM_NAME } from './settings';
 import { EnviroLoggerPlatform } from './platform';
 
-let hap: HAP;
+// let hap: HAP;
 
 /**
  * This method registers the platform with Homebridge
  */
 export = (api: API) => {
-  hap = api.hap;
+  // hap = api.hap;
 
   api.registerPlatform(PLATFORM_NAME, EnviroLoggerPlatform);
 };
