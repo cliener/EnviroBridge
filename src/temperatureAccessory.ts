@@ -1,13 +1,8 @@
 import {
   AccessoryPlugin,
-  CharacteristicEventTypes,
   HAP,
   Logging,
   Service } from 'homebridge';
-import events from "events";
-import fs from "node:fs";
-import path from "path";
-import readline from "readline";
 import lineByLine from "n-readlines";
 
 /**
@@ -38,7 +33,7 @@ export class TemperatureSensor implements AccessoryPlugin {
 
         let line;
         let lineNumber = 0;
-        while (line = liner.next()) {
+        while ((line = liner.next())) {
           if (lineNumber === 1) {
             const parsedLine = line.toString("ascii").replace(/'/g, `"`);
             const data = JSON.parse(parsedLine);
