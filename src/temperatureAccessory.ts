@@ -4,7 +4,11 @@ import {
   HAP,
   Logging,
   Service } from 'homebridge';
+import events from "events";
 import fs from "node:fs";
+import path from "path";
+import readline from "readline";
+import lineByLine from "n-readlines";
 
 /**
  * Temperature Accessory
@@ -22,28 +26,40 @@ export class TemperatureSensor implements AccessoryPlugin {
   constructor(hap: HAP, log: Logging, name: string) {
     this.log = log;
     this.name = name;
-
-    this.temperatureService = new hap.Service.TemperatureSensor(name);
+    
+    this.temperatureService = new hap.Service.TemperatureSensor(this.name);
     this.temperatureService.getCharacteristic(hap.Characteristic.CurrentTemperature)
-      .on(CharacteristicEventTypes.GET, this.getTemperature);
+      .onGet(() => {
+        let temperature = 10;
+        this.log("Getting temperature");
+        this.log("Reading file");
+
+        const liner = new lineByLine("/home/cliener/log.csv");
+
+        let line;
+        let lineNumber = 0;
+        while (line = liner.next()) {
+          if (lineNumber === 1) {
+            const parsedLine = line.toString("ascii").replace(/'/g, `"`);
+            const data = JSON.parse(parsedLine);
+            temperature = data.temp;
+            break;
+          }
+          lineNumber = lineNumber + 1;
+        }
+        // this.log.error(`Failed to read temperature log due to error:`);
+        // this.log.error((err as Error).message);
+
+
+        this.log(`Current temp: ${temperature}`);
+        return temperature;
+      });
     
     this.informationService = new hap.Service.AccessoryInformation()
       .setCharacteristic(hap.Characteristic.Manufacturer, "Chris Industries")
       .setCharacteristic(hap.Characteristic.Model, "EnviroLogger Temperature");
 
     log.info(`Temperature sensor ${this.name} created`);
-  }
-
-  getTemperature(): number {
-    try {
-      const data = fs.readFileSync("~/log.csv");
-      // read first line
-      this.log.info(`Found data ${data}`);
-      return 1;
-    } catch (err) {
-      this.log.error(`Failed to read temperature log due to error: ${err}`);
-      return 0;
-    }
   }
 
   identify(): void {

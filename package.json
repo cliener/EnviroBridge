@@ -1,7 +1,7 @@
 {
   "private": true,
   "displayName": "Enviro Logger",
-  "name": "@cliener/homebridge-enviro-logger",
+  "name": "homebridge-enviro-logger",
   "version": "1.0.0",
   "description": "A short description about what your plugin does.",
   "license": "Apache-2.0",
@@ -41,5 +41,8 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.8.0"
+  },
+  "dependencies": {
+    "n-readlines": "^1.0.1"
   }
 }
