@@ -5,6 +5,13 @@ import {
   Service } from 'homebridge';
 import lineByLine from "n-readlines";
 
+type EnviroData = {
+  temp: number;
+  pres: number;
+  hum: number;
+  datetime: string;
+}
+
 /**
  * Temperature Accessory
  * An instance of this class is created for each accessory your platform registers
@@ -27,29 +34,22 @@ export class TemperatureSensor implements AccessoryPlugin {
       .onGet(() => {
         let temperature = 10;
         this.log("Getting temperature");
-        this.log("Reading file");
 
-        const liner = new lineByLine("/home/cliener/log.csv");
+        const hatData: EnviroData = this.getHATData(this.log);
+        temperature = hatData.temp;
 
-        let line;
-        let lineNumber = 0;
-        while ((line = liner.next())) {
-          if (lineNumber === 1) {
-            const parsedLine = line.toString("ascii").replace(/'/g, `"`);
-            const data = JSON.parse(parsedLine);
-            temperature = data.temp;
-            break;
-          }
-          lineNumber = lineNumber + 1;
-        }
-        // this.log.error(`Failed to read temperature log due to error:`);
-        // this.log.error((err as Error).message);
-
-
-        this.log(`Current temp: ${temperature}`);
         return temperature;
       });
-    
+    this.temperatureService.getCharacteristic(hap.Characteristic.CurrentRelativeHumidity)
+      .onGet(() => {
+        let humidity = 10;
+        this.log("Getting humidity");
+
+        const hatData = this.getHATData(this.log);
+        humidity = hatData.hum;
+        return humidity;
+    });
+
     this.informationService = new hap.Service.AccessoryInformation()
       .setCharacteristic(hap.Characteristic.Manufacturer, "Chris Industries")
       .setCharacteristic(hap.Characteristic.Model, "EnviroLogger Temperature");
@@ -59,6 +59,34 @@ export class TemperatureSensor implements AccessoryPlugin {
 
   identify(): void {
     this.log("Identify");
+  }
+
+  getHATData(log: Logging): EnviroData {
+    let hatData: EnviroData = {
+      temp: 0,
+      pres: 0,
+      hum: 0,
+      datetime: ""
+    };
+    log("Reading file");
+    const liner = new lineByLine("/home/cliener/log.csv");
+
+    let line;
+    let lineNumber = 0;
+    while ((line = liner.next())) {
+      if (lineNumber === 1) {
+        const parsedLine = line.toString("ascii").replace(/'/g, `"`);
+        hatData = JSON.parse(parsedLine);
+        break;
+      }
+      lineNumber = lineNumber + 1;
+    }
+
+    // Handle errors
+    // this.log.error(`Failed to read temperature log due to error:`);
+    // this.log.error((err as Error).message);
+
+    return hatData;
   }
 
   getServices(): Service[] {
