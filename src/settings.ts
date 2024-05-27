@@ -7,3 +7,6 @@ export const PLATFORM_NAME = 'EnviroLoggerPlatform';
  * This must match the name of your plugin as defined the package.json
  */
 export const PLUGIN_NAME = 'homebridge-enviro-bridge';
+
+// Path to data log file
+export const LOG_PATH = '/home/cliener/log.csv';
