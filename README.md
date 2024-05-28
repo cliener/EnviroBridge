@@ -6,21 +6,15 @@
 </p>
 
 
-# Homebridge Platform Plugin Template
+# EnviroBridge
 
-This is a template Homebridge platform plugin and can be used as a base to help you get started developing your own plugin.
+Raspberry Pi based Homebridge consuming data from [Homebridge plugin](https://github.com/cliener/EnviroLogger).
+
+## Templates
+
+This is modified from the Homebridge platform plugin template.
 
 This template should be used in conjunction with the [developer documentation](https://developers.homebridge.io/). A full list of all supported service types, and their characteristics is available on this site.
-
-## Clone As Template
-
-Click the link below to create a new GitHub Repository using this template, or click the *Use This Template* button above.
-
-<span align="center">
-
-### [Create New Repository From Template](https://github.com/homebridge/homebridge-plugin-template/generate)
-
-</span>
 
 ## Setup Development Environment
 
