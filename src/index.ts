@@ -9,6 +9,7 @@ import {
 import { PLATFORM_NAME } from './settings';
 
 import { TemperatureSensor } from './temperatureAccessory';
+import { HumiditySensor } from './humidityAccessory';
 
 let hap: HAP;
 
@@ -33,7 +34,8 @@ class EnviroLoggerPlatform implements StaticPlatformPlugin {
 
   accessories(callback: (foundAccessories: AccessoryPlugin[]) => void): void {
     callback([
-      new TemperatureSensor(hap, this.log, "EnviroTemperatureSensor")
+      new TemperatureSensor(hap, this.log, "EnviroTemperatureSensor"),
+      new HumiditySensor(hap, this.log, "EnviroHumiditySensor")
     ]);
   }
 }
