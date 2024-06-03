@@ -4,7 +4,7 @@ import {
   Logging,
   Service
 } from 'homebridge';
-import { SenseLog, SenseLogger } from "./senseLog";
+import { SenseDb, SqDb } from "./db";
 
 /**
  * Temperature Accessory
@@ -16,12 +16,12 @@ export class TemperatureSensor implements AccessoryPlugin {
   private name: string;
   private temperatureService: Service;
   private informationService: Service;
-  private senseLog: SenseLogger
+  private senseDb: SqDb;
 
   constructor(hap: HAP, log: Logging, name: string) {
     this.log = log;
     this.name = name;
-    this.senseLog = new SenseLog();
+    this.senseDb = new SenseDb();
 
     this.temperatureService = new hap.Service.TemperatureSensor(this.name);
     this.temperatureService.getCharacteristic(hap.Characteristic.CurrentTemperature)
@@ -29,7 +29,8 @@ export class TemperatureSensor implements AccessoryPlugin {
         let temperature = 10;
         this.log("Getting temperature");
 
-        const hatData = this.senseLog.getData(this.log);
+        // const hatData = this.senseLog.getData(this.log);
+        const hatData = this.senseDb.getData(this.log);
         temperature = hatData.temp;
 
         return temperature;

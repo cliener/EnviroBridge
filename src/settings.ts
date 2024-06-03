@@ -8,5 +8,5 @@ export const PLATFORM_NAME = 'EnviroLoggerPlatform';
  */
 export const PLUGIN_NAME = 'homebridge-enviro-bridge';
 
-// Path to data log file
-export const LOG_PATH = '/home/cliener/log.csv';
+// Path to database file
+export const DB_PATH = '/home/cliener/piloggerSQLite.db';

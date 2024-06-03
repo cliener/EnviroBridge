@@ -4,7 +4,7 @@ import {
     Logging,
     Service
 } from 'homebridge';
-import { SenseLog, SenseLogger } from "./senseLog";
+import { SenseDb, SqDb } from "./db";
 
 /**
  * Humidity Accessory
@@ -16,12 +16,12 @@ export class HumiditySensor implements AccessoryPlugin {
     private name: string;
     private humidityService: Service;
     private informationService: Service;
-    private senseLog: SenseLogger;
+    private senseDb: SqDb;
 
     constructor(hap: HAP, log: Logging, name: string) {
         this.log = log;
         this.name = name;
-        this.senseLog = new SenseLog();
+        this.senseDb = new SenseDb();
 
         this.humidityService = new hap.Service.HumiditySensor(this.name);
         this.humidityService.getCharacteristic(hap.Characteristic.CurrentRelativeHumidity)
@@ -29,7 +29,7 @@ export class HumiditySensor implements AccessoryPlugin {
                 let humidity = 10;
                 this.log("Getting humidity");
 
-                const hatData = this.senseLog.getData(this.log);
+                const hatData = this.senseDb.getData(this.log);
                 humidity = hatData.hum;
                 return humidity;
             });

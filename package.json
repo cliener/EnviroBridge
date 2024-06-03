@@ -43,6 +43,7 @@
     "typescript-eslint": "^7.8.0"
   },
   "dependencies": {
-    "n-readlines": "^1.0.1"
+    "@types/better-sqlite3": "^7.6.10",
+    "better-sqlite3": "^11.0.0"
   }
 }
